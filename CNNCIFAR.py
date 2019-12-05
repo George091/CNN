@@ -17,7 +17,7 @@ import pickle
 from keras.datasets import cifar10
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import Conv2D, MaxPooling2D, BatchNormalization
 from keras import regularizers
 
 num_classes = 10
@@ -40,15 +40,21 @@ weight_decay = 1e-5
 
 model = Sequential()
 model.add(Conv2D(32, (3, 3), activation='relu', padding='valid', kernel_regularizer=regularizers.l2(weight_decay), input_shape=x_train.shape[1:]))
+model.add(BatchNormalization())
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(0.2))
-
-model.add(Conv2D(32, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(weight_decay)))
-model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(BatchNormalization())
 model.add(Dropout(0.2))
 
 model.add(Conv2D(64, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(weight_decay)))
+model.add(BatchNormalization())
 model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(BatchNormalization())
+model.add(Dropout(0.2))
+
+model.add(Conv2D(128, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(weight_decay)))
+model.add(BatchNormalization())
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(BatchNormalization())
 model.add(Dropout(0.2))
 
 model.add(Flatten())

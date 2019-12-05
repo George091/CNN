@@ -17,18 +17,20 @@ top_words = 5000
 max_review_length = 600
 embedding_vector_length = 64
 
-# Load Data
-# save np.load
-np_load_old = np.load
+## Load Data
+## save np.load
+#np_load_old = np.load
+#
+## modify the default parameters of np.load
+#np.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
+#
+## call load_data with allow_pickle implicitly set to true
+#(x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=8000)
+#
+## restore np.load for future normal usage
+#np.load = np_load_old
 
-# modify the default parameters of np.load
-np.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
-
-# call load_data with allow_pickle implicitly set to true
-(x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=8000)
-
-# restore np.load for future normal usage
-np.load = np_load_old
+(x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=top_words)
 
 # Pad and reduce length of input
 x_train = sequence.pad_sequences(x_train, maxlen=max_review_length)

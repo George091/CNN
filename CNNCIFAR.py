@@ -6,6 +6,12 @@ Created on Thu Dec  5 14:05:28 2019
 @author: zeromskia
 """
 
+"""
+Created on Thu Dec  5 14:05:28 2019
+
+@author: Andre Zeromski and George Barker
+"""
+
 import keras
 from keras.datasets import cifar10
 from keras.preprocessing.image import ImageDataGenerator

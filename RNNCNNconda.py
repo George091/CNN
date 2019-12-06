@@ -10,11 +10,12 @@ from keras.preprocessing import sequence
 from keras.models import Sequential
 from keras.layers.embeddings import Embedding
 from keras.layers import Dense, SimpleRNN, Dropout, Conv1D, MaxPooling1D, Bidirectional, LSTM
+from keras.regularizers import l2
 
 # constants
 top_words = 5000
 max_review_length = 600
-embedding_vector_length = 64
+embedding_vector_length = 40
 
 ## Load Data
 (x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=top_words)
@@ -26,12 +27,13 @@ x_test = sequence.pad_sequences(x_test, maxlen=max_review_length)
 # Create model
 model = Sequential()
 model.add(Embedding(top_words, embedding_vector_length, input_length=max_review_length))
-model.add(Conv1D(filters=32, kernel_size=7, strides=1, activation='relu', padding='valid'))
+model.add(Dropout(0.15))
+model.add(Conv1D(filters=64, kernel_size=7, strides=1, activation='relu', padding='valid'))
 model.add(MaxPooling1D(pool_size=4))
 model.add(Dropout(0.3))
-model.add(Bidirectional(LSTM(64)))
+model.add(Bidirectional(LSTM(128,kernel_regularizer=l2(0.01), recurrent_regularizer=l2(0.0001), bias_regularizer=l2(0.0001))))
 model.add(Dropout(0.3))
-model.add(Dense(64, activation="relu"))
+model.add(Dense(256, activation="relu"))
 model.add(Dense(1, activation="sigmoid"))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
@@ -39,7 +41,7 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 print(model.summary())
 
 # Train model
-model.fit(x_train, y_train, epochs=10, batch_size=64, verbose=1)
+model.fit(x_train, y_train, validation_data=(x_test,y_test), epochs=2, batch_size=64, verbose=1)
 
 # Evaluate model
 predictions = model.evaluate(x_test, y_test)

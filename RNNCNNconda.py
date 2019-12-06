@@ -9,13 +9,13 @@ from keras.datasets import imdb
 from keras.preprocessing import sequence
 from keras.models import Sequential
 from keras.layers.embeddings import Embedding
-from keras.layers import Dense, SimpleRNN, Dropout, Conv1D, MaxPooling1D, Bidirectional, LSTM
+from keras.layers import Dense, SimpleRNN, Dropout, Conv1D, MaxPooling1D, Bidirectional, LSTM, BatchNormalization
 from keras.regularizers import l2
 
 # constants
-top_words = 5000
-max_review_length = 600
-embedding_vector_length = 40
+top_words = 4000
+max_review_length = 800
+embedding_vector_length = 50
 
 ## Load Data
 (x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=top_words)
@@ -27,13 +27,20 @@ x_test = sequence.pad_sequences(x_test, maxlen=max_review_length)
 # Create model
 model = Sequential()
 model.add(Embedding(top_words, embedding_vector_length, input_length=max_review_length))
-model.add(Dropout(0.15))
-model.add(Conv1D(filters=64, kernel_size=7, strides=1, activation='relu', padding='valid'))
-model.add(MaxPooling1D(pool_size=4))
+model.add(Conv1D(filters=64, kernel_size=5, strides=1, activation='relu', padding='same'))
+model.add(BatchNormalization())
+model.add(MaxPooling1D(pool_size=2))
+model.add(BatchNormalization())
 model.add(Dropout(0.3))
-model.add(Bidirectional(LSTM(128,kernel_regularizer=l2(0.01), recurrent_regularizer=l2(0.0001), bias_regularizer=l2(0.0001))))
+model.add(Conv1D(filters=128, kernel_size=5, strides=1, activation='relu', padding='same'))
+model.add(BatchNormalization())
+model.add(MaxPooling1D(pool_size=2))
+model.add(BatchNormalization())
 model.add(Dropout(0.3))
-model.add(Dense(256, activation="relu"))
+model.add(Bidirectional(LSTM(128)))
+model.add(Dropout(0.3))
+##model.add(Dense(128, activation="relu"))
+##model.add(Dropout(0.3))
 model.add(Dense(1, activation="sigmoid"))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
@@ -41,7 +48,7 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 print(model.summary())
 
 # Train model
-model.fit(x_train, y_train, validation_data=(x_test,y_test), epochs=2, batch_size=64, verbose=1)
+model.fit(x_train, y_train, validation_data=(x_test,y_test), epochs=8, batch_size=32, verbose=1)
 
 # Evaluate model
 predictions = model.evaluate(x_test, y_test)

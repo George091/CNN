@@ -43,19 +43,19 @@ model.add(Conv2D(32, (3, 3), activation='relu', padding='valid', kernel_regulari
 model.add(BatchNormalization())
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(BatchNormalization())
-model.add(Dropout(0.2))
+model.add(Dropout(0.4))
 
 model.add(Conv2D(64, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(weight_decay)))
 model.add(BatchNormalization())
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(BatchNormalization())
-model.add(Dropout(0.2))
+model.add(Dropout(0.4))
 
 model.add(Conv2D(128, (3, 3), activation='relu', kernel_regularizer=regularizers.l2(weight_decay)))
 model.add(BatchNormalization())
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(BatchNormalization())
-model.add(Dropout(0.2))
+model.add(Dropout(0.4))
 
 model.add(Flatten())
 model.add(Dense(500))
@@ -69,13 +69,13 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
-model.fit(x_train, y_train, epochs=50, batch_size=64, verbose=1)
+model.fit(x_train, y_train, epochs=100, batch_size=64, verbose=1)
 
 # Evaluate model
 print("Evaluating Test Set: ")
 predictions = model.evaluate(x_test, y_test)
 print("accuracy: %.2f%%" % (predictions[1]*100))
 
-pickle_out = open("CNN-CIFAR","wb")
+pickle_out = open("CNN-CIFAR-1","wb")
 pickle.dump(model, pickle_out)
 pickle_out.close()

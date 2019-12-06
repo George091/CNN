@@ -9,7 +9,7 @@ from keras.datasets import imdb
 from keras.preprocessing import sequence
 from keras.models import Sequential
 from keras.layers.embeddings import Embedding
-from keras.layers import Dense, SimpleRNN, Dropout, Conv1D, MaxPooling1D
+from keras.layers import Dense, SimpleRNN, Dropout, Conv1D, MaxPooling1D, Bidirectional, LSTM
 
 # constants
 top_words = 5000
@@ -29,7 +29,7 @@ model.add(Embedding(top_words, embedding_vector_length, input_length=max_review_
 model.add(Conv1D(filters=32, kernel_size=7, strides=1, activation='relu', padding='valid'))
 model.add(MaxPooling1D(pool_size=4))
 model.add(Dropout(0.3))
-model.add(SimpleRNN(64))
+model.add(Bidirectional(LSTM(64)))
 model.add(Dropout(0.3))
 model.add(Dense(64, activation="relu"))
 model.add(Dense(1, activation="sigmoid"))

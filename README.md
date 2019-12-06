@@ -6,6 +6,8 @@ We started with a basic 1D cnn and RNN structure. We used an embedding layer, a 
 
 Then I changed the pooling size from 2-3. This gave an accuracy of 93% on the training set, but 76% on the testing set. The model clearly overfit, so we decided to add regularization. I decided to add a dropout of .3 between the CNN and RNN layers, and re-ran the model. This model resulted in an accuracy of 78% on the training set, and 84% on the testing set. The problem here was that the model did not train for enough epochs - it was still gaining significant accuracy. I re-ran the model here for 10 epochs and got 80.5% on the testing set. Interestingly, epoch 9 and 10 had accuracy of .89 and .76 respectively. It is interesting what happened in the training process here. I went ahead and increase max pooling size to 4 and re-ran the model. This model received an accuracy of 84%. Upping the pooling size to 5 only achieved 83% accuracy, therefore we deciding to take the next step and upgrade to a LSTM layer. We also changed the pooling size back to 4. This model achieved 75% accuracy on testing set and 83% on training set. We removed the LSTM layer and increased the # of filters to 32 and ran the model. Increasing filter to 32 gave us 87% accuracy on testing set (results are pickled in "CNN-RNN-1")
 
+We then added back the bidirectional LSTM layer with 64 nodes and ran the model. We got a training set accuracy of 99% and testing set accuracy of 86.5%. There's clearly need for further regularization. I added dropout between embedding layer and the cnn layer.
+
 # Part 2
 
 We started with a base vanilla CNN model with a conv2d layer followed by a maxpooling layer, repeated 3 times.

@@ -4,7 +4,7 @@
 Created on Tue Dec 3 15:45:43 2019
 @author: George Barker and Andre Zeromski
 """
-
+import pickle
 from keras.datasets import imdb
 from keras.preprocessing import sequence
 from keras.models import Sequential
@@ -26,8 +26,9 @@ x_test = sequence.pad_sequences(x_test, maxlen=max_review_length)
 # Create model
 model = Sequential()
 model.add(Embedding(top_words, embedding_vector_length, input_length=max_review_length))
-model.add(Conv1D(filters=1, kernel_size=3, strides=1, activation='relu', padding='valid'))
-model.add(MaxPooling1D(pool_size=2))
+model.add(Conv1D(filters=1, kernel_size=7, strides=1, activation='relu', padding='valid'))
+model.add(MaxPooling1D(pool_size=3))
+model.add(Dropout(0.3))
 model.add(SimpleRNN(64))
 model.add(Dropout(0.3))
 model.add(Dense(64, activation="relu"))
@@ -38,8 +39,12 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 print(model.summary())
 
 # Train model
-model.fit(x_train, y_train, epochs=4, batch_size=64, verbose=1)
+model.fit(x_train, y_train, epochs=10, batch_size=64, verbose=1)
 
 # Evaluate model
 predictions = model.evaluate(x_test, y_test)
 print("accuracy: %.2f%%" % (predictions[1]*100))
+
+pickle_out = open("CNN-LSTM-1","wb")
+pickle.dump(model, pickle_out)
+pickle_out.close()

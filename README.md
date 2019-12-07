@@ -14,6 +14,10 @@ We decided that our CNN should also be performing further feature extraction and
 
 Another aspect of the CNN architecture we experimented with was padding. Interestingly enough, we found that same padding performed much better than valid padding in the convoluted layers. We believe that this is because valid padding does not allow the convolution layer's filter to capture enough information at the end and beginning of the movie review. By changing the padding to same, the filter was able to move over the items at the beginning and end of the review the same amkunt of times it moves over the items in the middle of the review, and thus catpures this periphery information. 
 
+Dropout: we added dropout between each max pool and convolution layer, and after the LSTM. We also removed the dense layer after the LSTM, so that the LSTM directly fed into the output prediction node. We applied a standard sigmoid activation function to the output layer because our model is tasked with making a prediction of a binary classification.
+
+We used binary cross entropy because we want our model to greatly penalize predictions that are confident and incorrect. We also used adam optimizer, but edited it so that we could directly change the learning rate. We found that using a learning rate of .000____ allowed us to get 89.94% accuracy on our test set. Finally, our metric was accuracy, as we wanted our model to just be able to get the most number of predictions correct out of the testing set.
+
 # Part 2
 
 We started with a base vanilla CNN model with a conv2d layer followed by a maxpooling layer, repeated 3 times.

@@ -10,7 +10,9 @@ We then added back the bidirectional LSTM layer with 64 nodes and ran the model.
 
 We also experimented with the batch size, thinking that a smaller batch size would yield a more fine-tuned adjustment of the weights in the model, and therefore capture results with a higher accuracy. We found that decreasing the batch size from 64 to 32 in model.fit consistently provided a 1-2% increase in testing set accuracy.
 
-Another aspect of the CNN architecture we experimented with was padding. Interestingly enough, we found that same padding performed much better than valid padding in the convoluted layers.
+We decided that our CNN should also be performing further feature extraction and dimensionality reduction, so we added an identical convolution and maxpooling layer following the first 1d CNN. We believed that this further step added adequate preprocessing of the movie review for the Bidirectional LSTM to capture short and long range dependencies to make an accurate prediction.
+
+Another aspect of the CNN architecture we experimented with was padding. Interestingly enough, we found that same padding performed much better than valid padding in the convoluted layers. We believe that this is because valid padding does not allow the convolution layer's filter to capture enough information at the end and beginning of the movie review. By changing the padding to same, the filter was able to move over the items at the beginning and end of the review the same amkunt of times it moves over the items in the middle of the review, and thus catpures this periphery information. 
 
 # Part 2
 

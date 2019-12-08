@@ -6,6 +6,7 @@
 To test accuracy:
 1. Run RNNCNNconda.py
 2. Model we trained that has 89.94% accuracy will be evaluated
+
 To train model:
 1. Comment out lines 53 and 54 (where the model is pickled in)
 2. Uncomment lines 60
@@ -56,6 +57,7 @@ Our RNN model tested at 87.7% accuracy on the testing set. Our CNN-RNN model tes
 To test accuracy:
 1. Run CNNCIFAR.py
 2. Model we trained that has 80.93% accuracy will be evaluated
+
 To train model:
 1. Comment out lines 68 and 69 (where the model is pickled in)
 2. Uncomment lines 72

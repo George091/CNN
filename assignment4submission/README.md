@@ -1,5 +1,7 @@
 # Assignment 4
 
+This is the CNN project by George Barker and Andre Zeromski.
+
 # Part 1 - 1D CNN and RNN for sentiment analysis
 
 ## How to run code:

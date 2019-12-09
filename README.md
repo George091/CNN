@@ -2,6 +2,8 @@
 
 # Part 1 - 1D CNN and RNN for sentiment analysis
 
+This is the CNN project by George Barker and Andre Zeromski.
+
 ## How to run code:
 To test accuracy:
 1. Run RNNCNNconda.py
